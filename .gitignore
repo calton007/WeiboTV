@@ -106,3 +106,5 @@ ENV/
 /users.py
 将删除 .idea/workspace.xml
 
+/weibo/__init__.py
+/weibo/spiders/__init__.py
