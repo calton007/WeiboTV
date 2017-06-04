@@ -17,7 +17,7 @@ REMOVE_CHAR = {"[", "]", "'", "回复", "："}
 
 # Regex
 HREF_REGEX = '[A-Za-z0-9]{9}'
-URL_REGEX = '/tv/v/' + HREF_REGEX
+URL_REGEX = '====== /tv/v/' + HREF_REGEX
 USERCARD_REGEX = '\d{10}'
 MID_REGEX = '\d{16}'
 

@@ -28,11 +28,11 @@ class ExtractTags:
                 delete += 1
             print("Unique:%d\t\tDelete:%d\t\tProcess:%d\t\t" % (find, delete, all))
 
-    def remove_items(self, num=0):
-        items = self.collection.find({"$where": "this.comments.length  < %s" % str(num)})
+    def remove_items(self, num=1):
+        items = self.collection.find({"$where": "this.comments.length  < 1" })
         for item in items:
-            self.database.get_collection('remove_items').insert(item)
-            self.collection.remove(item)
+            self.database.get_collection('remove_items').insert({"url" : item["url"]})
+            self.collection.remove({"url":item["url"]})
 
     def cut_comments(self):
         var = 0
@@ -64,7 +64,7 @@ class ExtractTags:
         self.client.close()
 
 pro = ExtractTags()
-pro.remove_duplicate()
+# pro.remove_duplicate()
 pro.remove_items()
-pro.cut_comments()
+# pro.cut_comments()
 pro.close()
