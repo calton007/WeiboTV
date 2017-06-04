@@ -101,6 +101,8 @@ ENV/
 .mypy_cache/
 
 # My configurations:
-cookies.json
-links.json
-users.py
+/cookies.json
+/links.json
+/users.py
+将删除 .idea/workspace.xml
+
