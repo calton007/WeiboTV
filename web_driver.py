@@ -37,3 +37,4 @@ class GetCookies:
         json.dump(cookies, file, indent=4, sort_keys=False, ensure_ascii=False)
         file.close()
         self.driver.close()
+

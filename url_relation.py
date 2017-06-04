@@ -6,20 +6,21 @@ import time
 
 client = ConnectDB(DATABASE_TV, COLLECTION_URL)
 database, collection = client.get_handler()
-# def remove_duplicate():
-#     all, find, delete = 0, 0, 0
-#     a = collection.distinct('url')
-#     for i in range(collection.count(), 0, -1):
-#         all += 1
-#         url = collection.find()[i - 1]["url"]
-#         if url in a:
-#             a.remove(url)
-#             find += 1
-#         elif url not in a:
-#             collection.remove(collection.find()[i - 1])
-#             delete += 1
-#         print("Unique:%d\t\tDelete:%d\t\tProcess:%d\t\t" % (find, delete, all))
-g = Graph(directed = False)
+
+# all, find, delete = 0, 0, 0
+# a = collection.distinct('url')
+# for i in range(collection.count(), 0, -1):
+#     all += 1
+#     url = collection.find()[i - 1]["url"]
+#     if url in a:
+#         a.remove(url)
+#         find += 1
+#     elif url not in a:
+#         collection.remove(collection.find()[i - 1])
+#         delete += 1
+#     print("Unique:%d\t\tDelete:%d\t\tProcess:%d\t\t" % (find, delete, all))
+
+g = Graph(directed = True)
 urls = set()
 urls.add('index')
 re = collection.find()
@@ -39,12 +40,19 @@ for url in collection.find():
 value = time.localtime(int(time.time()))
 dt = time.strftime(DATE_FORMAT, value)
 print(dt)
-# layout = g.layout_fruchterman_reingold()
+layout = g.layout_fruchterman_reingold()
 visual_style = {}
-visual_style["vertex_size"] = 1
+visual_style["vertex_size"] = 2
+visual_style["edge_array_size"] = 0.1
+visual_style["edge_array_width"] = 0.05
 visual_style["edge_width"] = 0.3
 visual_style["vertex_color"] = 'white'
-visual_style["layout"] = g.layout_fruchterman_reingold()
+visual_style["vertex_label_dist"] = 0.1
+# visual_style["layout"] = g.layout_kamada_kawai()
+# visual_style["layout"] = g.layout_drl()
+# visual_style["layout"] = g.layout_graphopt()
+
+g = g.community_edge_betweenness()
 plot(g, **visual_style)
 value = time.localtime(int(time.time()))
 dt = time.strftime(DATE_FORMAT, value)
