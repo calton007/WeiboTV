@@ -108,3 +108,6 @@ ENV/
 
 /weibo/__init__.py
 /weibo/spiders/__init__.py
+/result.csv
+/igraph7qm9_e36.png
+/igraphfbxrr65r.png

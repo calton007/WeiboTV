@@ -3,7 +3,7 @@ import numpy
 from numpy import *
 from copy import deepcopy
 from database_utils import ConnectDB
-from values import DATE_FORMAT, DATABASE_TV, COLLECTION_ITEM
+from values import DATE_FORMAT, DATABASE_TV, COLLECTION_ITEM, NUM
 
 
 class Similar:
@@ -53,7 +53,9 @@ class Similar:
             # all = 0
             # pos = 0
             tag = self.add_tags(item_a, set())
-            relative = []
+            relative = {}
+            for i in range(10):
+                relative[NUM[i]] = []
             comments_a, cut_a, len_a = self.cut_split(item_a)
             for item_b in self.collection.find():
                 if item_a != item_b:
@@ -62,23 +64,16 @@ class Similar:
                     vec_a = self.frequence(cut_a, len_a, tags)
                     vec_b = self.frequence(cut_b, len_b, tags)
                     cos = self.cosine(vec_a, vec_b)
-                    # all += 1
-                    if cos > 0.4:
-                        links += 1
-                        # pos += 1
-                        relative.append({"url":item_b["url"], "value":cos})
-
-                        # print("item_a", end='')
-                        # for item in item_a["tags"]:
-                        #     print(item["tag"], end='/')
-                        # print('\nitem_b',end='')
-                        # for item in item_b["tags"]:
-                        #     print(item["tag"], end='/')
-                        # print('\n')
+                    for i in range(10):
+                        if cos > 0.1 * i :
+                            links += 1
+                            relative[NUM[i]].append({"url":item_b["url"], "value":cos})
+                            if len(relative[NUM[i]]) == 0:
+                                break
             self.collection.update({"url":item_a["url"]},{"$set":{"relative":relative}})
             var += 1
             value = time.localtime(int(time.time()))
             dt = time.strftime(DATE_FORMAT, value)
-            print("%s\t\tprocesse %d\t\titems:%d" % (dt, var, len(relative)))
+            print("%s\t\tprocesse %d\t\t" % (dt, var))
 pro = Similar()
 pro.process()
