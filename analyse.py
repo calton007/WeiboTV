@@ -24,9 +24,54 @@ class Analyse:
 
     def export(self, num):
         file = open('result_%s.csv' % str(num), 'w', encoding='utf-8')
+        file.writelines("Source,Target,Weight,Type\n")
+        temp = set()
         for item in self.collection.find():
             for url in item["relative"][NUM[num]]:
-                file.writelines([item["url"],',',url["url"],',',str(url["value"])[0:5],'\n'])
+                if (url["url"], item["url"]) in temp:
+                    continue
+                else:
+                    temp.add((item["url"],url["url"]))
+                    file.writelines([item["url"], ',', url["url"], ',', str(url["value"])[0:5], ',', 'undirected\n'])
         file.close()
-pro = Analyse()
-pro.export(9)
+
+    def count(self):
+        file = open('r.txt','w')
+        user = {}
+        max = 0
+        for item in self.collection.find():
+            for forward in item["forwards"]:
+                usercard = forward["forward_usercard"]
+                if user.get(usercard) is None:
+                    user[usercard] = 1
+                else:
+                    user[usercard] += 1
+                    if user[usercard] > max:
+                        max = user[usercard]
+        file.write("max user forwards:%d\n" % max)
+        file.write("===================================================\nAverage\n")
+        data = self.database.get_collection('users')
+        var = 0
+        for (u, v) in user.items():
+            if v > 3:
+                data.insert({"usercard":u},{"$set":{"forwards":v}})
+            var += 1
+            print(var)
+        # for i in range(max+1):
+        #     sum = 0
+        #     p = 0
+        #     for count in user.values():
+        #         if count == i:
+        #             sum += count
+        #             p += 1
+        #     file.write("forward %d:\t\tpeople:%d\n" % (i+1, p))
+        # for i in range(2,max):
+        #     result = {}
+        #     for (u, count) in user.items():
+        #         if count > i:
+        #             result[u] = count
+        #     print(i,":", len(result))
+        file.close()
+
+a = Analyse()
+a.count()
