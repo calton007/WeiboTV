@@ -108,6 +108,10 @@ ENV/
 
 /weibo/__init__.py
 /weibo/spiders/__init__.py
-/result.csv
-/igraph7qm9_e36.png
-/igraphfbxrr65r.png
+*.csv
+*.png
+将删除 result_4.csv
+将删除 result_5.csv
+将删除 result_6.csv
+将删除 result_7.csv
+将删除 result_8.csv

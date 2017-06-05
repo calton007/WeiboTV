@@ -23,11 +23,10 @@ class Analyse:
         print(result)
 
     def export(self, num):
-        file = open('result.csv', 'w', encoding='utf-8')
+        file = open('result_%s.csv' % str(num), 'w', encoding='utf-8')
         for item in self.collection.find():
             for url in item["relative"][NUM[num]]:
                 file.writelines([item["url"],',',url["url"],',',str(url["value"])[0:5],'\n'])
         file.close()
 pro = Analyse()
-# pro.average()
-pro.export(4)
+pro.export(9)
