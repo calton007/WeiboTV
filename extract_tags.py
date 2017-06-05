@@ -46,8 +46,8 @@ class ExtractTags:
                     break
             for char in REMOVE_CHAR:
                 comments = comments.replace(char, "")
-            cut_a = '/'.join(jieba.cut_for_search(comments)) # search engine mode
-            # cut_a = '/'.join(jieba.cut(comments, cut_all=False)) # accurate mode
+            # cut_a = '/'.join(jieba.cut_for_search(comments)) # search engine mode
+            cut_a = '/'.join(jieba.cut(comments, cut_all=False)) # accurate mode
             # cut_a = '/'.join(jieba.cut(comments, cut_all=True)) # full mode
             self.collection.update({"url": item["url"]}, {"$unset": {"comments": ""}})
             self.collection.update({"url": item["url"]}, {"$set": {"comments": cut_a}})
