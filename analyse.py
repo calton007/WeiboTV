@@ -47,7 +47,7 @@ class Analyse:
         data = self.database.get_collection('users')
         var = 0
         for (u, v) in user.items():
-            if len(v) > 4   :
+            if len(v) > 16:
                 data.insert({"usercard":u},{"$set":{"forwards":len(v)}})
             var += 1
             print(var)
