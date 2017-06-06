@@ -36,25 +36,19 @@ class Analyse:
         file.close()
 
     def count(self):
-        file = open('r.txt','w')
         user = {}
-        max = 0
         for item in self.collection.find():
             for forward in item["forwards"]:
                 usercard = forward["forward_usercard"]
                 if user.get(usercard) is None:
-                    user[usercard] = 1
-                else:
-                    user[usercard] += 1
-                    if user[usercard] > max:
-                        max = user[usercard]
-        file.write("max user forwards:%d\n" % max)
-        file.write("===================================================\nAverage\n")
+                    user[usercard] = set()
+                user[usercard].add(item["url"])
+
         data = self.database.get_collection('users')
         var = 0
         for (u, v) in user.items():
-            if v > 3:
-                data.insert({"usercard":u},{"$set":{"forwards":v}})
+            if len(v) > 4   :
+                data.insert({"usercard":u},{"$set":{"forwards":len(v)}})
             var += 1
             print(var)
         # for i in range(max+1):
@@ -71,7 +65,6 @@ class Analyse:
         #         if count > i:
         #             result[u] = count
         #     print(i,":", len(result))
-        file.close()
 
 a = Analyse()
 a.count()
