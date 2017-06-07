@@ -115,3 +115,7 @@ ENV/
 将删除 result_6.csv
 将删除 result_7.csv
 将删除 result_8.csv
+/aaaa.py
+将删除 accurate/
+将删除 full/
+将删除 search/

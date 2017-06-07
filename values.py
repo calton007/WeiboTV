@@ -15,6 +15,7 @@ DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 # Others
 REMOVE_CHAR = {"[", "]", "'", "回复", "："}
 NUM = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+TOP = ['F60AinHUg', 'F5XEEAgNm', 'F5Zy5vvBV', 'F5PsSzGap', 'F5PulgouS', 'F4MxrxWtM', 'F5VZ95vsP', 'F53pYAhn4', 'F4TMpaaEe', 'F60Lj0ktx', 'F5GNAihfg', 'F5nChaFn5', 'F5vCznV11', 'F4Jqvpv2O', 'F5wbSFUDM', 'F4MXz7pQv', 'F5W2OiqfJ', 'F5PQd0AdW', 'F5QwhlobH', 'F5PoS4bR6']
 
 # Regex
 HREF_REGEX = '[A-Za-z0-9]{9}'
