@@ -17,27 +17,31 @@ class Similar:
 
     @staticmethod
     def cosine(a, b):
-        return a.dot(b)/sqrt(a.dot(a))/sqrt(b.dot(b))
+        return a.dot(b)/sqrt(a.dot(a))/sqrt(b.dot(b)) # evaluate the similarity
 
     def add_tags(self, item, tag_set):
+        # add item's tags into tag_set
         for t in item["tags"]:
             tag_set.add(t["tag"])
         return tag_set
 
     def cut_split(self, item):
+        # comment have been cut(word cut) and use '/' as a mark
         comment = item["comments"]
-        cut = comment.split('/')
+        cut = comment.split('/') # comment to group of words
         comment = comment.replace('/','')
-        length = len(comment.replace('/',''))
+        length = len(comment.replace('/','')) # get the words number of this comment
         return comment, cut, length
 
     def init_vec(self, tags):
+        # init word vector
         vec = {}
         for i in tags:
             vec[i] = 0
         return vec
 
     def frequence(self, cut, len, tags):
+        # evaluate the word's frequence
         vec = self.init_vec(tags)
         for word in cut:
             if word in tags:
@@ -52,18 +56,22 @@ class Similar:
         for item_a in self.collection.find():
             # all = 0
             # pos = 0
-            tag = self.add_tags(item_a, set())
-            relative = {}
+            tag = self.add_tags(item_a, set()) # add tags into an empty set
+            relative = {} # record the relative video to item_a
+            # init the relative
             for i in range(10):
                 relative[NUM[i]] = []
             comments_a, cut_a, len_a = self.cut_split(item_a)
             for item_b in self.collection.find():
                 if item_a != item_b:
-                    tags = self.add_tags(item_b, deepcopy(tag))
+                    tags = self.add_tags(item_b, deepcopy(tag)) # copy the tag (just used above) and add tags into it
                     comments_b, cut_b, len_b = self.cut_split(item_b)
+                    # evaluate the word (in the tags) frequence
                     vec_a = self.frequence(cut_a, len_a, tags)
                     vec_b = self.frequence(cut_b, len_b, tags)
-                    cos = self.cosine(vec_a, vec_b)
+                    cos = self.cosine(vec_a, vec_b) # evaluate the similarity
+                    # according to the similarity, we record the relative video links and its similarity value
+                    # group by 0.1 interval( 0~0.1, 0.1~0.2, etc.)
                     for i in range(10):
                         if cos > 0.1 * i :
                             links += 1
