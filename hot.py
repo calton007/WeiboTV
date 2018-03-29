@@ -16,7 +16,7 @@ for item in collection.find():
         comments = len(item["comments"])
     except KeyError:
         comments = 0
-    videos[item["url"]] = len(item["forwards"]) + len(item["comments"])
+    videos[item["url"]] = len(item["forwards"]) + len(item["comments"]) # summary the comments number and forwards number
 sort = sorted(videos.items(), key = lambda x: x[1], reverse=True)
 top20 = []
 for i in range(20):
