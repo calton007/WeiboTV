@@ -15,6 +15,7 @@ class ExtractTags:
         jieba.enable_parallel(5)
 
     def remove_duplicate(self):
+        # remove the duplicate video according to 'url'
         all, find, delete= 0, 0, 0
         a = self.collection.distinct('url')
         for i in range(self.collection.count(),0,-1):
@@ -29,6 +30,7 @@ class ExtractTags:
             print("Unique:%d\t\tDelete:%d\t\tProcess:%d\t\t" % (find, delete, all))
 
     def remove_items(self):
+        # remove the video whose comments is less than 50
         items = self.collection.find({"$where": "this.comments.length  < 50" })
         for item in items:
             self.database.get_collection('remove_items').insert({"url" : item["url"]})
