@@ -9,8 +9,8 @@ class ConnectDB:
 
     def __init__(self, db, cl):
         self.client = MongoClient(LOCAL_HOST, PORT)
-        self.database = self.client.get_database(db)
-        self.collection = self.database.get_collection(cl)
+        self.database = self.client.get_database(db) # database'name
+        self.collection = self.database.get_collection(cl) # collection's name
 
     def get_handler(self):
         return self.database, self.collection
