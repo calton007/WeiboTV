@@ -65,6 +65,7 @@ class Analyse:
         #         if count > i:
         #             result[u] = count
         #     print(i,":", len(result))
+        #
 
 a = Analyse()
 a.count()
